@@ -1,0 +1,26 @@
+#RHEL/CENTOS
+#create group for sftp server/process
+sudo groupadd sftpgroup
+#create sftp user
+sudo useradd user
+#create password for sftp user
+sudo passwd user
+#usually you dont need to make any special changes for chroot directory. just give full access to the sftp user to its home directory
+sudo chmod 700 /home/user
+#if you need special location for home directory or to change its ch
+sudo mkdir -p /path_to_directory
+sudo usermod -G 1003 james
+sudo usermod -d /var/www/web
+sudo vi /etc/ssh/sshd_config
+
+Match group sftponly 
+ChrootDirectory /var/www/web
+X11Forwarding no 
+AllowTcpForwarding no 
+ForceCommand internal-sftp
+
+sudo chown root:root /var/www/web
+
+sudo systemctl restart sshd
+
+sftp james@localhost
