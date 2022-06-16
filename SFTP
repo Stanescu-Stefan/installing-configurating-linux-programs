@@ -8,7 +8,7 @@ sudo useradd sftp_user
 #create password for sftp user
 sudo passwd sftp_user
 
-#add sftp user to the sftp group
+#add sftp user to the sftp group(check the GID with cat /etc/group | grep sftpgroup)
 sudo usermod -G group_id sftp_user
 
 #usually you dont need to make any special changes for chroot directory. just give full access to the sftp user to its home directory
