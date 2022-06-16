@@ -25,7 +25,7 @@ sudo vi /etc/ssh/sshd_config
 
 #attach at the end of the file
 Match group sftpgroup
-ChrootDirectory /path_to_directory
+ChrootDirectory h%
 X11Forwarding no 
 AllowTcpForwarding no 
 ForceCommand internal-sftp
