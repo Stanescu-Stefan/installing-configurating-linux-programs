@@ -1,18 +1,28 @@
 #RHEL/CENTOS
 #create group for sftp server/process
 sudo groupadd sftpgroup
+
 #create sftp user
 sudo useradd sftp_user
+
 #create password for sftp user
 sudo passwd sftp_user
+
 #add sftp user to the sftp group
 sudo usermod -G group_id sftp_user
+
 #usually you dont need to make any special changes for chroot directory. just give full access to the sftp user to its home directory
-sudo chmod 700 /home/user
-#if you need special location for its chroot directory
+sudo chmod 700 /home/sftp_user
+
+#if you need special location for its chroot directory, you can create a custom directory
 sudo mkdir -p /path_to_directory
+
+#set this new directory as the new chroot directory of the user
 sudo usermod -d /path_to_directory
+
+#edit the sshd config file
 sudo vi /etc/ssh/sshd_config
+
 #attach at the end of the file
 Match group sftpgroup
 ChrootDirectory /path_to_directory
@@ -20,9 +30,11 @@ X11Forwarding no
 AllowTcpForwarding no 
 ForceCommand internal-sftp
 
-#change owner of chroot to root user
+#change owner of chroot directory to root user
 sudo chown root:root /path_to_directory
+
 #restart ssh service
 sudo systemctl restart sshd
 
+#test the connection to the sftp server
 sftp sftp_user@localhost
