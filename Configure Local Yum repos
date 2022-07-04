@@ -1,0 +1,50 @@
+#if you need to create/configure local yum repos to install from locally downloaded software
+#go to /etc/yum.repos.d directory
+
+cd /etc/yum.repos.d/
+
+#create config file for you local repo
+
+sudo vi local_yum.repo
+
+!<--
+inside the repo, you can write:
+
+[local_repo_name]
+
+name=name of the repo
+optionally you can write a comment section to provide more information related to your repo
+comment=
+baseurl=this is the path to the locally downloaded software in case of local repo or pointing to a server if you are using something like a ftp server
+
+local repo case:
+
+baseurl=file:///path_to_data
+
+server case:
+
+baseurl=ftp://ip_to_server/pub/server
+
+gpgcheck = This is to check the authentication of the repository, which is disabled in our case
+
+
+-->
+
+[local_repo_name]
+name=local_yum
+baseurl=file:///path_to_data
+enabled=1
+gpgcheck=0
+
+
+#In-order to use yum repository we have to clean the yum meta data, so before installing any package first time use yum clean all command
+
+sudo yum clean all
+
+#check the status of the repolist
+
+sudo yum repolist
+
+#proceed with installing the package from the locally downloaded software
+
+sudo yum install -y software_utility_name
